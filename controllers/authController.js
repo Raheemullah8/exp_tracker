@@ -39,11 +39,13 @@ export const register = async (req, res) => {
     // 🔸 Generate JWT with user ID (important fix)
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-    // 🔸 Set cookie
+    // ✅ Dynamic cookie config (local + vercel support)
+    const isProd = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-       secure: true, // local testing ke liye false rakho
-      sameSite: "None",
+      secure: isProd, // ✅ production pe true, local pe false
+      sameSite: isProd ? "None" : "Lax", // ✅ cookies properly send/receive
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     });
 
@@ -92,11 +94,12 @@ export const login = async (req, res) => {
     // 🔸 Generate JWT with user ID
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
 
-    // 🔸 Set cookie
+    const isProd = process.env.NODE_ENV === "production";
+
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true, // local testing ke liye false rakho
-      sameSite: "None",
+      secure: isProd,
+      sameSite: isProd ? "None" : "Lax",
       maxAge: 1000 * 60 * 60 * 24,
     });
 
