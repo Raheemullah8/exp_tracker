@@ -42,8 +42,8 @@ export const register = async (req, res) => {
     // 🔸 Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // local testing ke liye false rakho, production me true
-      sameSite: "Lax",
+       secure: true, // local testing ke liye false rakho
+      sameSite: "None",
       maxAge: 1000 * 60 * 60 * 24, // 1 day
     });
 
@@ -95,8 +95,8 @@ export const login = async (req, res) => {
     // 🔸 Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // local testing ke liye false rakho
-      sameSite: "Lax",
+      secure: true, // local testing ke liye false rakho
+      sameSite: "None",
       maxAge: 1000 * 60 * 60 * 24,
     });
 
@@ -142,7 +142,7 @@ export const logout = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: "Lax",
     });
 
